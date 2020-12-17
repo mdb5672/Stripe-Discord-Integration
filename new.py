@@ -13,9 +13,8 @@ app = Flask(__name__)
 def sendNotification(notification):
     hook = Webhook('https://canary.discord.com/api/webhooks/788922218314203167/YridU4VvmzYzgaJk-7JlLGALSmpnTGtfMLhRe5wqnejW_jYLq5-6QRv8IUm3IQ_CI0fS')
     # Set embed info
-    embed = Embed(description=notification['description'],
-                  timestamp='now', color=notification['color'], name='Stripe',
-                  avatar='https://pbs.twimg.com/profile_images/1280236709825835008/HmeYTwai_400x400.png')
+    # embed = Embed(description=notification['description'],timestamp='now',color=notification['color'],name='Stripe',avatar='https://pbs.twimg.com/profile_images/1280236709825835008/HmeYTwai_400x400.png')
+    embed = Embed()
     embed.set_footer(text='Stripe for Discord by mdb5672',
                         icon_url='https://avatars1.githubusercontent.com/u/51242885?s=60&v=4')
     for fields in notification['fields']:
@@ -49,25 +48,25 @@ def parse():
     notification = {}
     notification['fields'] = []
 
-    if event.type == 'charge.succeeded':
+    if event['type'] == 'charge.succeeded':
         paymentData = event['data']['object']
         notification['description'] = 'Payment Successful!'
         notification['fields'].append({'name': 'Customer', 'value': paymentData['billing_details']['name']})
         notification['fields'].append({'name': 'Email:', 'value': paymentData['billing_details']['email']})
-        notification['fields'].append({'name': 'Amount:', 'value': paymentData['currency'] (paymentData['amount']/100)})
+        notification['fields'].append({'name': 'Amount:', 'value': paymentData['currency'] + ' ' + str(paymentData['amount']/100)})
         notification['color'] = '01FF01'
         sendNotification(notification)
 
-    elif event.type == 'charge.failed':
+    elif event['type'] == 'charge.failed':
         paymentData = event['data']['object']
         notification['description'] = 'Payment Failed.'
         notification['fields'].append({'name': 'Customer', 'value': paymentData['billing_details']['name']})
         notification['fields'].append({'name': 'Email:', 'value': paymentData['billing_details']['email']})
-        notification['fields'].append({'name': 'Amount:', 'value': paymentData['currency'](paymentData['amount']/100)})
+        notification['fields'].append({'name': 'Amount:', 'value': paymentData['currency'] + ' ' + str(paymentData['amount']/100)})
         notification['color'] = 'FF0000'
         sendNotification(notification)
     
-    elif event.type == 'customer.subscription.updated':
+    elif event['type'] == 'customer.subscription.updated':
         paymentData = event['data']['object']
         notification['description'] = 'Subscription Updated.'
         notification['fields'].append({'name': 'Customer ID', 'value': paymentData['customer']})
@@ -75,7 +74,7 @@ def parse():
         notification['color'] = 'FFFF00'
         sendNotification(notification)
 
-    elif event.type == 'invoice.marked_uncollectible':
+    elif event['type'] == 'invoice.marked_uncollectible':
         paymentData = event['data']['object']
         notification['description'] = 'Invoice Unpaid.'
         notification['fields'].append({'name': 'Customer', 'value': paymentData['customer_name']})
@@ -84,7 +83,7 @@ def parse():
         notification['color'] = 'FF0000'
         sendNotification(notification)
 
-    elif event.type == 'customer.subscription.deleted':
+    elif event['type'] == 'customer.subscription.deleted':
         paymentData = event['data']['object']
         notification['description'] = 'Invoice Unpaid.'
         notification['fields'].append({'name': 'Customer ID', 'value': paymentData['customer']})
