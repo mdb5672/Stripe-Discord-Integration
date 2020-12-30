@@ -5,13 +5,13 @@ from flask import Flask, jsonify, request
 from dhooks import Webhook, Embed
 
 # Add stripe api key here (Use testing key until pushing live.)
-stripe.api_key = ''
+stripe.api_key = 'pk_live_51HufjkKd0aYbOLmucCnBe4J2bjKxpB7k1KVRrA5PVRx10cgj5sfHrCvUwc9QOVKms5PkveIPtGUMJApqIp3bkLuO00jOgoq0Yi'
 
 app = Flask(__name__)
 
 # Send notif
 def sendNotification(notification):
-    hook = Webhook('')
+    hook = Webhook('https://canary.discordapp.com/api/webhooks/789266120636104726/glNG2fadnnnWDlEyeH86tl2DMAVZc-JZK2iDl19nTVD2LZFwK9yMn6DBewUertBY4HK7')
     # Set embed info
     embed = Embed(description=notification['description'],timestamp='now',color=notification['color'])
     embed.set_footer(text='Stripe for Discord by mdb5672',
