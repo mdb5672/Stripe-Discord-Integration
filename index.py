@@ -113,7 +113,7 @@ def parse():
         paymentData = event['data']['object']
         notification['description'] = 'New Subscription'
         notification['fields'].append({'name': 'Customer ID:', 'value': paymentData['customer']})
-        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data']['price']['nickname']})
+        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data'][0]['price']['nickname']})
         notification['fields'].append({'name': 'Price:', 'value': paymentData['currency'] + ' ' + str(paymentData['items']['data']['price']['unit_amount']/100)})
         notification['fields'].append({'name': 'Discount:', 'value': paymentData['discount']})
         notification['color'] = '130817'
@@ -123,7 +123,7 @@ def parse():
         paymentData = event['data']['object']
         notification['description'] = 'Subscription Canceled'
         notification['fields'].append({'name': 'Customer ID:', 'value': paymentData['customer']})
-        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data']['price']['nickname']})
+        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data'][0]['price']['nickname']})
         notification['color'] = '16711680'
         sendNotification(notification)
     
@@ -131,7 +131,7 @@ def parse():
         paymentData = event['data']['object']
         notification['description'] = 'Subscription Updated'
         notification['fields'].append({'name': 'Customer ID:', 'value': paymentData['customer']})
-        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data']['price']['nickname']})
+        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data'][0]['price']['nickname']})
         notification['fields'].append({'name': 'Price:', 'value': paymentData['currency'] + ' ' + str(paymentData['items']['data']['price']['unit_amount']/100)})
         notification['fields'].append({'name': 'Discount:', 'value': paymentData['discount']})
         notification['color'] = '9896172'
@@ -141,7 +141,7 @@ def parse():
         paymentData = event['data']['object']
         notification['description'] = 'Trial Ending'
         notification['fields'].append({'name': 'Customer ID:', 'value': paymentData['customer']})
-        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data']['price']['nickname']})
+        notification['fields'].append({'name': 'Subscription Tier:', 'value': paymentData['items']['data'][0]['price']['nickname']})
         notification['fields'].append({'name': 'Trial End Date:', 'value': paymentData['trial_end']})
         notification['fields'].append({'name': 'Price:', 'value': paymentData['currency'] + ' ' + str(paymentData['items']['data']['price']['unit_amount']/100)})
         notification['fields'].append({'name': 'Discount:', 'value': paymentData['discount']})
