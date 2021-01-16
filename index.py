@@ -16,8 +16,7 @@ def sendNotification(notification):
     hook = Webhook('')
     # Set embed info
     embed = Embed(description=notification['description'],timestamp='now',color=notification['color'])
-    embed.set_footer(text='Stripe for Discord by mdb5672',
-                        icon_url='https://avatars1.githubusercontent.com/u/51242885?s=60&v=4')
+    embed.set_footer(text='Stripe for Discord by mdb5672',icon_url='https://avatars1.githubusercontent.com/u/51242885?s=60&v=4')
     for fields in notification['fields']:
         embed.add_field(name=str(fields['name']),value=str(fields['value']),inline=False)
     hook.send(embed=embed)
