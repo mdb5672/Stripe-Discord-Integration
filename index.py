@@ -29,6 +29,7 @@ def sendNotification(notification):
     # charge.failed
     # charge.refunded
     # invoice.paid
+    # invoice.marked_uncollectible
     # customer.subscription.created
     # customer.subscription.deleted
     # customer.subscription.updated
@@ -107,6 +108,15 @@ def parse():
         notification['fields'].append({'name': 'Email:', 'value': paymentData['customer_email']})
         notification['fields'].append({'name': 'Amount Due:', 'value': paymentData['amount_due']/100})
         notification['color'] = '130817'
+        sendNotification(notification)
+        
+    elif event['type'] == 'invoice.marked_uncollectible':
+        paymentData = event['data']['object']
+        notification['description'] = 'Invoice Uncollectible'
+        notification['fields'].append({'name': 'Customer:', 'value': paymentData['customer_name']})
+        notification['fields'].append({'name': 'Email:', 'value': paymentData['customer_email']})
+        notification['fields'].append({'name': 'Amount Due:', 'value': paymentData['amount_due']/100})
+        notification['color'] = '16711680'
         sendNotification(notification)
     
     elif event['type'] == 'customer.subscription.created':
